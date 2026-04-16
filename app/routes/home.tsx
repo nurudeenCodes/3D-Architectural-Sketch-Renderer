@@ -21,7 +21,7 @@ export default function Home() {
 
   const handleUploadComplete = async (base64Data: string) => {
     const newId = Date.now().toString(); // Generate a unique ID for the new project (Will use a more robust method in production)
-    navigate(`/visualizer/${newId}`); // Navigate to the visualizer route with the new ID and pass the base64 data as state
+    navigate(`/visualizer/${newId}`, { state: { base64Data } }); // Navigate to the visualizer route with the new ID and pass the base64 data as state
     return true;
   };
 
