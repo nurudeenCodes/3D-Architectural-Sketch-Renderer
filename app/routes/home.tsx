@@ -2,6 +2,8 @@ import Navbar from "~/components/Navbar";
 import type { Route } from "./+types/home";
 import { ArrowRight, ArrowUpRight, Clock, Layers } from "lucide-react";
 import { Button } from "~/components/ui/Button";
+import Upload from "~/components/Upload";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,6 +17,14 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  const handleUploadComplete = async (base64Data: string) => {
+    const newId = Date.now().toString(); // Generate a unique ID for the new project (Will use a more robust method in production)
+    navigate(`/visualizer/${newId}`, { state: { base64Data } }); // Navigate to the visualizer route with the new ID and pass the base64 data as state
+    return true;
+  };
+
   return (
     <div className="home">
       <Navbar />
@@ -58,7 +68,8 @@ export default function Home() {
               <h2>Upload Your Floor plan Design</h2>
               <p>Supports JPG, PNG, formats up to 10MB </p>
             </div>
-            <p>Upload images</p>
+
+            <Upload onComplete={handleUploadComplete} />
           </div>
         </div>
       </section>
@@ -69,7 +80,8 @@ export default function Home() {
             <div className="copy">
               <h2>Projects</h2>
               <p>
-                Your latest work and shared community projects, all in one place.
+                Your latest work and shared community projects, all in one
+                place.
               </p>
             </div>
           </div>
@@ -96,7 +108,7 @@ export default function Home() {
                     <span>By @john_doe</span>
                   </div>
                 </div>
-                
+
                 <div className="arrow">
                   <ArrowUpRight size={16} />
                 </div>
